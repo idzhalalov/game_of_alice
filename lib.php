@@ -44,14 +44,13 @@ function ranks(
                 .'. Max possible score is '.MAX_SCORES);
         }
     });
-    array_walk($aliceScores, function ($score) {
-        if ($score > MAX_SCORES) {
-            throw new Exception('Alice has too large value of a score '.$score
-                .'. Max possible score is '.MAX_SCORES);
-        }
-    });
 
     foreach ($aliceScores as $score) {
+        if ($score > MAX_SCORES) {
+            throw new Exception('Too large value of a score '.$score
+                .'. Max possible score is '.MAX_SCORES);
+        }
+
         $result[] = rankOfGame($score, $scoresArray);
     }
 
