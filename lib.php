@@ -4,7 +4,11 @@ declare(strict_types=1);
 const BASE = 2;
 const EXP = 10;
 const MAX_MEMBERS = BASE * (EXP ** 5);
+const MAX_GAMES = MAX_MEMBERS;
 const MAX_SCORES = EXP ** 9;
+const MIN_MEMBERS = 1;
+const MIN_GAMES = 1;
+const MIN_SCORES = 0;
 
 /**
  * Get ranks of all games
@@ -17,8 +21,8 @@ const MAX_SCORES = EXP ** 9;
  * @return array Ranks of games
  *
  * @throws Exception When one of limits is exceeded
- * ($membersCount and $aliceGamesCount are limited with MAX_MEMBERS constant;
- * and any score is limited by MAX_SCORES)
+ * ($membersCount and $aliceGamesCount are limited with MAX_MEMBERS and MIN_MEMBERS constant;
+ * and any score is limited by MAX_SCORES and MIN_SCORES)
  */
 function ranks(
     int $membersCount,
@@ -30,25 +34,26 @@ function ranks(
     $scoresArray = explode(' ', str_replace('  ', ' ', $scores));
 
     // Check for limitations
-    if ($membersCount > MAX_MEMBERS) {
-        throw new Exception('Too many members. Max members count is '
-            .MAX_MEMBERS);
+    if ($membersCount > MAX_MEMBERS || $membersCount < MIN_MEMBERS) {
+        throw new Exception('Invalid value of $membersCount: '.$membersCount
+            .'. Limit is exceeded');
     }
-    if ($aliceGamesCount > MAX_MEMBERS) {
-        throw new Exception('Too many games count. Max games count is '
-            .MAX_MEMBERS);
+
+    if ($aliceGamesCount > MAX_MEMBERS || $aliceGamesCount < MIN_MEMBERS) {
+        throw new Exception('Invalid value of $aliceGamesCount: '
+            .$aliceGamesCount.'. Limit is exceeded');
     }
     array_walk($scoresArray, function ($score) {
-        if ($score > MAX_SCORES) {
-            throw new Exception('Too large value of a score '.$score
-                .'. Max possible score is '.MAX_SCORES);
+        if ($score > MAX_SCORES || $score < MIN_SCORES) {
+            throw new Exception('Invalid value of score in $scoresArray: '
+                .$score.'. Limit is exceeded');
         }
     });
 
     foreach ($aliceScores as $score) {
-        if ($score > MAX_SCORES) {
-            throw new Exception('Too large value of a score '.$score
-                .'. Max possible score is '.MAX_SCORES);
+        if ($score > MAX_SCORES || $score < MIN_SCORES) {
+            throw new Exception('Invalid value of score in $aliceScores: '
+                .$score.'. Limit is exceeded');
         }
 
         $result[] = rankOfGame($score, $scoresArray);

@@ -7,9 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class RanksTest extends TestCase
 {
-    private $invalidMax = 2 * 10 ** 5 + 1;
-    private $invalidMaxScore = 2 * 10 ** 9 + 1;
-
     public function testRanks()
     {
         $ranks = ranks(7, '100 100 50 40 40 20 10', 4, [5, 25, 50, 120]);
@@ -28,7 +25,18 @@ class RanksTest extends TestCase
     {
         $this->expectException(Exception::class);
         ranks(
-            $this->invalidMax,
+            MAX_MEMBERS + 1,
+            '100 100 50 40 40 20 10',
+            4,
+            [5, 25, 50, 120]
+        );
+    }
+
+    public function testMinMembers()
+    {
+        $this->expectException(Exception::class);
+        ranks(
+            MIN_MEMBERS - 1,
             '100 100 50 40 40 20 10',
             4,
             [5, 25, 50, 120]
@@ -41,7 +49,18 @@ class RanksTest extends TestCase
         ranks(
             7,
             '100 100 50 40 40 20 10',
-            $this->invalidMax,
+            MAX_GAMES + 1,
+            [5, 25, 50, 120]
+        );
+    }
+
+    public function testMinGames()
+    {
+        $this->expectException(Exception::class);
+        ranks(
+            7,
+            '100 100 50 40 40 20 10',
+            MIN_GAMES - 1,
             [5, 25, 50, 120]
         );
     }
@@ -51,7 +70,18 @@ class RanksTest extends TestCase
         $this->expectException(Exception::class);
         ranks(
             7,
-            '100 100 50 40 40 20 10 ' . $this->invalidMaxScore,
+            '100 100 50 40 40 20 10 ' . (MAX_SCORES + 1),
+            4,
+            [5, 25, 50, 120]
+        );
+    }
+
+    public function testMinPossibleScore()
+    {
+        $this->expectException(Exception::class);
+        ranks(
+            7,
+            '100 100 50 40 40 20 10 ' . (MIN_SCORES - 1),
             4,
             [5, 25, 50, 120]
         );
@@ -64,7 +94,18 @@ class RanksTest extends TestCase
             7,
             '100 100 50 40 40 20 10 ',
             4,
-            [5, 25, 50, $this->invalidMaxScore]
+            [5, 25, 50, (MAX_SCORES + 1)]
+        );
+    }
+
+    public function testMinPossibleScoreOfAlice()
+    {
+        $this->expectException(Exception::class);
+        ranks(
+            7,
+            '100 100 50 40 40 20 10 ',
+            4,
+            [5, 25, 50, (MIN_SCORES - 1)]
         );
     }
 }
