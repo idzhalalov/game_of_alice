@@ -7,5 +7,18 @@ function ranks(
     int $aliceGamesCount,
     array $aliceScores
 ): array {
-    return [6, 4, 2, 1];
+    $result = [];
+    $scoresArray = explode(' ', str_replace('  ', ' ', $scores));
+    foreach ($aliceScores as $score) {
+        $result[] = rankOfGame($score, $scoresArray);
+    }
+
+}
+
+function rankOfGame(int $scoreOfGame, array $allScores)
+{
+    array_push($allScores, $scoreOfGame);
+    arsort($allScores);
+    $allScores = array_values(array_unique($allScores));
+    return array_search($scoreOfGame, $allScores) + 1;
 }
