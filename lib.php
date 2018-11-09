@@ -13,6 +13,7 @@ function ranks(
         $result[] = rankOfGame($score, $scoresArray);
     }
 
+    return $result;
 }
 
 function rankOfGame(int $scoreOfGame, array $allScores)
@@ -20,5 +21,6 @@ function rankOfGame(int $scoreOfGame, array $allScores)
     array_push($allScores, $scoreOfGame);
     arsort($allScores);
     $allScores = array_values(array_unique($allScores));
+
     return array_search($scoreOfGame, $allScores) + 1;
 }
