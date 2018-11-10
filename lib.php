@@ -73,8 +73,8 @@ function ranks(
 function rankOfGame(int $scoreOfGame, array $allScores)
 {
     array_push($allScores, $scoreOfGame);
-    arsort($allScores);
-    $allScores = array_values(array_unique($allScores));
+    arsort($allScores, SORT_NUMERIC);
+    $allScores = array_merge(array_flip(array_flip($allScores)));
 
     return array_search($scoreOfGame, $allScores) + 1;
 }
