@@ -38,24 +38,24 @@ function ranks(
         throw new Exception('Invalid value of $membersCount: '.$membersCount
             .'. Limit is exceeded');
     }
-
     if ($aliceGamesCount > MAX_MEMBERS || $aliceGamesCount < MIN_MEMBERS) {
         throw new Exception('Invalid value of $aliceGamesCount: '
             .$aliceGamesCount.'. Limit is exceeded');
     }
-    array_walk($scoresArray, function ($score) {
-        if ($score > MAX_SCORES || $score < MIN_SCORES) {
-            throw new Exception('Invalid value of score in $scoresArray: '
-                .$score.'. Limit is exceeded');
-        }
-    });
+    if ($scoresArray[0] > MAX_SCORES
+        || $scoresArray[count($scoresArray) - 1] < MIN_SCORES
+    ) {
+        throw new Exception('Invalid value of score in $scoresArray. Maximum is '
+            .MAX_SCORES.' Limit is exceeded');
+    }
+    if ($aliceScores[0] > MAX_SCORES
+        || $aliceScores[count($aliceScores) - 1] < MIN_SCORES
+    ) {
+        throw new Exception('Invalid value of score in $scoresArray. Maximum is '
+            .MAX_SCORES.' Limit is exceeded');
+    }
 
     foreach ($aliceScores as $score) {
-        if ($score > MAX_SCORES || $score < MIN_SCORES) {
-            throw new Exception('Invalid value of score in $aliceScores: '
-                .$score.'. Limit is exceeded');
-        }
-
         $result[] = rankOfGame($score, $scoresArray);
     }
 

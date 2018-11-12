@@ -70,7 +70,7 @@ class RanksTest extends TestCase
         $this->expectException(Exception::class);
         ranks(
             7,
-            '100 100 50 40 40 20 10 ' . (MAX_SCORES + 1),
+            (MAX_SCORES + 1) . '100 100 50 40 40 20 10 ',
             4,
             [5, 25, 50, 120]
         );
@@ -94,7 +94,7 @@ class RanksTest extends TestCase
             7,
             '100 100 50 40 40 20 10 ',
             4,
-            [5, 25, 50, (MAX_SCORES + 1)]
+            [(MAX_SCORES + 1), 5, 25, 50]
         );
     }
 
